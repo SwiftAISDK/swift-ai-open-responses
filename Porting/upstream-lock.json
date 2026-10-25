@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    {
+      "name": "@ai-sdk/open-responses",
+      "reviewedVersion": "2.0.73",
+      "ledgerKind": "provider",
+      "evidence": "`AIProviders.openResponses`, `ResponsesRequestMode.openResponses`, `OpenResponsesTools`, `ResponsesEndpointTests.swift`, `OpenAIResponsesMessageConversionTests.swift`",
+      "reviewStatus": "imported-reviewed-with-gaps",
+      "archiveIntegrity": "sha512-B7ltDv9/slS4S4rd0QElXAcRO9o6XD6t63jUH/uN7e13J8N7TzHZc6yDM9JGLGbLgjTvjAW0Xh/BzDhtFEsitA==",
+      "sourceRef": "npm:@ai-sdk/open-responses@2.0.73",
+      "testRef": "682e2dd71456f14f9da33a1b983d1998c3a1184c",
+      "testRefRelationship": "inventory-snapshot-not-release-verified",
+      "contractFamilies": [],
+      "contractReview": "not-imported; inspect upstream declarations before extraction"
+    }
+  ]
+}
