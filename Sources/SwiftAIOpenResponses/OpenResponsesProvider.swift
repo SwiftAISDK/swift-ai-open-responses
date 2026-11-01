@@ -10,15 +10,19 @@ public typealias OpenResponsesFailedResponse = SwiftAIOpenAI.OpenResponsesFailed
 
 public struct OpenResponsesProviderSettings: Sendable {
     public var apiKey: String?
+    /// Supplies a fresh API key before an authenticated request.
+    public var apiKeyProvider: (@Sendable () async throws -> String)?
     public var headers: [String: String]
+    /// Resolves provider headers before every generated or streamed response.
+    public var headersProvider: (@Sendable () async throws -> [String: String])?
     public var transport: any AITransport
     public var strictResponseInput: Bool
     public var transformRequestBody: (@Sendable ([String: JSONValue]) -> [String: JSONValue])?
 
-    public init(apiKey: String? = nil, headers: [String: String] = [:],
+    public init(apiKey: String? = nil, apiKeyProvider: (@Sendable () async throws -> String)? = nil, headers: [String: String] = [:], headersProvider: (@Sendable () async throws -> [String: String])? = nil,
                 transport: any AITransport = URLSessionTransport.shared, strictResponseInput: Bool = false,
                 transformRequestBody: (@Sendable ([String: JSONValue]) -> [String: JSONValue])? = nil) {
-        self.apiKey = apiKey; self.headers = headers; self.transport = transport
+        self.apiKey = apiKey; self.apiKeyProvider = apiKeyProvider; self.headers = headers; self.headersProvider = headersProvider; self.transport = transport
         self.strictResponseInput = strictResponseInput; self.transformRequestBody = transformRequestBody
     }
 }
@@ -28,6 +32,7 @@ public final class OpenResponsesProvider: AIProvider, Sendable {
     public let providerID: String
     public let supportedCapabilities: Set<ModelCapability> = [.language]
     private let config: OpenAIModelConfiguration
+    private let headersProvider: (@Sendable () async throws -> [String: String])?
 
     public init(
         name: String, url: String, configuration: OpenResponsesProviderSettings = .init(),
@@ -37,15 +42,20 @@ public final class OpenResponsesProvider: AIProvider, Sendable {
         failedResponseHandler: (@Sendable (AIHTTPResponse) -> OpenResponsesFailedResponse)? = nil,
         userAgentSuffix: String? = nil
     ) throws {
+        var configuration = configuration
+        if let supplier = configuration.apiKeyProvider {
+            let credential = AIAsyncCredential(supplier)
+            configuration.apiKey = credential.placeholder
+            configuration.transport = credential.resolvingTransport(configuration.transport)
+        }
         providerID = "\(name).responses"
-        var headers: [String: String] = [:]
-        if let apiKey = configuration.apiKey { headers["Authorization"] = "Bearer \(apiKey)" }
-        headers.merge(configuration.headers) { _, custom in custom }
+        var headers = normalizeHeaders(configuration.headers)
+        if let apiKey = configuration.apiKey, headers["authorization"] == nil { headers["authorization"] = "Bearer \(apiKey)" }
         let endpoint = try requireURL(url)
         let base = "\(endpoint.scheme ?? "https")://\(endpoint.host ?? "")"
         var config = OpenAIModelConfiguration(http: .init(
             providerID: "\(name).responses", headers: headers, transport: configuration.transport,
-            dynamicHeaders: dynamicHeaders, userAgentSuffix: userAgentSuffix ?? "ai-sdk-open-responses/2.0.73",
+            dynamicHeaders: dynamicHeaders, userAgentSuffix: userAgentSuffix ?? "ai-sdk-open-responses/2.0.77",
             url: { _, _ in endpoint }), baseURL: base, openAIBackedProviderRoot: nil)
         config.strictResponseInput = configuration.strictResponseInput
         config.transformRequestBody = configuration.transformRequestBody
@@ -62,10 +72,14 @@ public final class OpenResponsesProvider: AIProvider, Sendable {
             }
         }
         self.config = config
+        self.headersProvider = configuration.headersProvider
     }
 
     public func languageModel(_ modelID: String) throws -> any LanguageModel {
-        OpenAICompatibleResponsesModel(modelID: modelID, config: config)
+        if let headersProvider {
+            return OpenResponsesDynamicHeadersModel(modelID: modelID, config: config, headersProvider: headersProvider)
+        }
+        return OpenAICompatibleResponsesModel(modelID: modelID, config: config)
     }
     public func chatModel(_ modelID: String) throws -> any LanguageModel { try languageModel(modelID) }
     public func responses(_ modelID: String) throws -> any LanguageModel { try languageModel(modelID) }
@@ -103,5 +117,39 @@ public extension AIProviders {
             customToolID: customToolID, structuredOutputs: structuredOutputs,
             getResponseErrorMetadata: getResponseErrorMetadata, dynamicHeaders: dynamicHeaders,
             failedResponseHandler: failedResponseHandler, userAgentSuffix: userAgentSuffix)
+    }
+}
+
+private struct OpenResponsesDynamicHeadersModel: LanguageModel {
+    let modelID: String
+    let config: OpenAIModelConfiguration
+    let headersProvider: @Sendable () async throws -> [String: String]
+    var providerID: String { config.providerID }
+    var supportedURLs: [String: [AISupportedURLPattern]] {
+        OpenAICompatibleResponsesModel(modelID: modelID, config: config).supportedURLs
+    }
+
+    private func resolved(_ request: LanguageModelRequest) async throws -> OpenAICompatibleResponsesModel {
+        try request.abortSignal?.throwIfAborted()
+        var config = config
+        let fresh = try await headersProvider()
+        try request.abortSignal?.throwIfAborted()
+        config.http.headers = prepareHeaders(fresh, defaultHeaders: config.http.headers)
+        return OpenAICompatibleResponsesModel(modelID: modelID, config: config)
+    }
+    func generate(_ request: LanguageModelRequest) async throws -> TextGenerationResult {
+        try await resolved(request).generate(request)
+    }
+    func stream(_ request: LanguageModelRequest) -> AsyncThrowingStream<LanguageStreamPart, Error> {
+        AsyncThrowingStream { continuation in
+            let task = Task {
+                do {
+                    let model = try await resolved(request)
+                    for try await part in model.stream(request) { continuation.yield(part) }
+                    continuation.finish()
+                } catch { continuation.finish(throwing: error) }
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
     }
 }

@@ -1,45 +1,48 @@
 {
   "schemaVersion": 1,
   "package": "swift-ai-open-responses",
-  "version": "1.0.0",
-  "releaseID": "modular-3",
+  "version": "1.1.0",
+  "releaseID": "weekly-upstream-20261101",
   "source": {
-    "commit": "7fc9b4cd72f8f83b75ba7eee2e38d37127539317",
-    "baseCommit": "7fc9b4cd72f8f83b75ba7eee2e38d37127539317",
+    "commit": "ea057797494ab9bb66df8c6bfd8edc10245b20e7",
+    "baseCommit": "ea057797494ab9bb66df8c6bfd8edc10245b20e7",
     "workingTree": false,
-    "inputsSHA256": "49b802ba4a30454f78c9886ab3114537ef659ab3e6db7775479b7351f6e3f0ab"
+    "inputsSHA256": "b46f3e07b0a583d6fee81035987d74a06fc5c6109cbdf228144d1172d2c3676e"
   },
   "dependencies": [
     {
       "package": "swift-ai-core",
-      "from": "1.0.0"
+      "from": "1.2.0"
     },
     {
       "package": "swift-ai-openai",
-      "from": "1.0.0"
+      "from": "1.1.0"
     }
   ],
   "changes": [
     {
-      "id": "remaining-package-extraction",
-      "notes": "Extract the existing runtime, typed settings and standalone tests from the compatibility aggregate. Preserve the reviewed npm baseline and existing capability/gap boundaries.",
-      "compatibility": "Initial independent Swift package version. Existing SwiftAISDK entry points remain in the development compatibility facade; no npm-version equivalence is implied."
+      "id": "weekly-upstream-20261101",
+      "notes": "Add native async throwing apiKeyProvider; resolve a fresh key immediately before every authenticated HTTP send/stream through the shared transport. Preserve static keys, custom header precedence, error/abort propagation, request builders and response parsers. Native apiKeyProvider and headersProvider resolve on generate/stream; request headers take precedence. The published none/minimal/low/medium/high/xhigh/max map is implemented by the shared Responses engine, with explicit provider effort authoritative. Reviewed upstream: @ai-sdk/open-responses 2.0.73 to 2.0.77. Validation passed: node Scripts/test-packages.mjs (all 52 owning package suites and the compatibility facade); node Scripts/sdk.mjs generate --check; node --test Scripts/tests/*.test.cjs (27 passed); docs-site check and build (100 pages). Live provider calls were not run.",
+      "compatibility": "Minor release for additive native API; existing static settings and call sites remain compatible. Updated direct dependency minimums are recorded in the manifest. Existing documented JS/framework and native product gaps remain; version-delta review does not imply full parity or live-service testing. Explicit custom authentication skips an unused credential supplier, a deliberate native callback-order adaptation."
     }
   ],
   "canonicalDirectory": "Packages/swift-ai-open-responses",
   "upstream": [
     {
       "name": "@ai-sdk/open-responses",
-      "reviewedVersion": "2.0.73",
+      "reviewedVersion": "2.0.77",
       "ledgerKind": "provider",
-      "evidence": "`AIProviders.openResponses`, `ResponsesRequestMode.openResponses`, `OpenResponsesTools`, `ResponsesEndpointTests.swift`, `OpenAIResponsesMessageConversionTests.swift`",
+      "evidence": "`AIProviders.openResponses`, `ResponsesRequestMode.openResponses`, `OpenResponsesTools`, `ResponsesEndpointTests.swift`, `OpenAIResponsesMessageConversionTests.swift`; 2026-11-01 delta: Docs/WeeklyUpstreamAudit20261101.json",
       "reviewStatus": "imported-reviewed-with-gaps",
-      "archiveIntegrity": "sha512-B7ltDv9/slS4S4rd0QElXAcRO9o6XD6t63jUH/uN7e13J8N7TzHZc6yDM9JGLGbLgjTvjAW0Xh/BzDhtFEsitA==",
-      "sourceRef": "npm:@ai-sdk/open-responses@2.0.73",
-      "testRef": "682e2dd71456f14f9da33a1b983d1998c3a1184c",
-      "testRefRelationship": "inventory-snapshot-not-release-verified",
-      "contractFamilies": [],
-      "contractReview": "not-imported; inspect upstream declarations before extraction"
+      "archiveIntegrity": "sha512-M7spGLVihJkf8uFa0On205XEofak3pORpVr9btTlzSpZCa322gFTxU2/DWDtAJ8G6QD3ZnuxJHU/l05uyl+KBA==",
+      "sourceRef": "npm:@ai-sdk/open-responses@2.0.77",
+      "testRef": "9b603d36186b75e58d5479445a96c76f6e2d2700",
+      "testRefRelationship": "matching-release",
+      "contractFamilies": [
+        "LanguageModelV4",
+        "ProviderV4"
+      ],
+      "contractReview": "2026-11-01: published declarations, source and exact matching-release changed tests reviewed; scoped dispositions and Swift translations are in Docs/WeeklyUpstreamAudit20261101.json. Existing broader product gaps remain; reviewed delta is not full-package parity."
     }
   ],
   "note": "Independent port. Imported test refs and contract review gaps retain their original status; export is not new upstream parity proof.",
@@ -58,7 +61,7 @@
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Porting/map.json",
-      "sha256": "76379596424a707c505015b059778a67ed14723e15bbb151cbf086eaea412899"
+      "sha256": "0427f25f0c99a64a09295335059af2642ea7348ad46febbe35d2b4617ad310be"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/README.md",
@@ -66,7 +69,7 @@
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Sources/SwiftAIOpenResponses/OpenResponsesProvider.swift",
-      "sha256": "aee4d3b4ecc6d993037289ebe343f473d96635e979a98c641dfe9db2fcc68180"
+      "sha256": "6cc69d9a6e5fa8bce9d1bcfe78483d2ff978cc7196ff490bac15a10c61cdea8a"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/FixtureDownloadTransport.swift",
@@ -83,6 +86,10 @@
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/TestSupport.swift",
       "sha256": "b9c02b26f79b2565d41a003734bd16976020defcc32e8013a25894276e74d3e4"
+    },
+    {
+      "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/Weekly20261101CredentialsTests.swift",
+      "sha256": "5cb9972091607d3c126fe4376e55a346ece064bd6b0b6e629be48c93a05e49fc"
     }
   ]
 }

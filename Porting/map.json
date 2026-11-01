@@ -25,7 +25,8 @@
       "Tests/SwiftAIOpenResponsesTests/FixtureDownloadTransport.swift",
       "Tests/SwiftAIOpenResponsesTests/OpenResponsesStrictInputTests.swift",
       "Tests/SwiftAIOpenResponsesTests/OpenResponsesUpstreamParity20260817Tests.swift",
-      "Tests/SwiftAIOpenResponsesTests/TestSupport.swift"
+      "Tests/SwiftAIOpenResponsesTests/TestSupport.swift",
+      "Tests/SwiftAIOpenResponsesTests/Weekly20261101CredentialsTests.swift"
     ],
     "resources": []
   },
@@ -35,7 +36,7 @@
       "reason": "Preserve Swift async/await, Sendable, Foundation transport and existing documented gaps; see Docs/CoreV6Parity.md and PortingStatus.md."
     }
   ],
-  "reviewNote": "M6: independent Open Responses factory, configuration and focused tests. The previously shared Responses engine remains in SwiftAIOpenAI and is consumed through its public hosting configuration, with openAIBackedProviderRoot nil and explicit Open Responses mode; no engine fork or upstream capability change. Shared mixed integration tests remain in the workspace.",
+  "reviewNote": "M6: independent Open Responses factory, configuration and focused tests. The previously shared Responses engine remains in SwiftAIOpenAI and is consumed through its public hosting configuration, with openAIBackedProviderRoot nil and explicit Open Responses mode; no engine fork or upstream capability change. Shared mixed integration tests remain in the workspace. 2026-11-01 published package source/declarations and exact release-matched tests reviewed; native async credential suppliers preserve existing static keys, overrides and cancellation. See Docs/WeeklyUpstreamAudit20261101.json for archive identities and exact test provenance.",
   "canonicalOnlyReferences": [],
   "canonicalDirectory": "Packages/swift-ai-open-responses"
 }
