@@ -55,7 +55,7 @@ public final class OpenResponsesProvider: AIProvider, Sendable {
         let base = "\(endpoint.scheme ?? "https")://\(endpoint.host ?? "")"
         var config = OpenAIModelConfiguration(http: .init(
             providerID: "\(name).responses", headers: headers, transport: configuration.transport,
-            dynamicHeaders: dynamicHeaders, userAgentSuffix: userAgentSuffix ?? "ai-sdk-open-responses/2.0.77",
+            dynamicHeaders: dynamicHeaders, userAgentSuffix: userAgentSuffix ?? "ai-sdk-open-responses/2.0.82",
             url: { _, _ in endpoint }), baseURL: base, openAIBackedProviderRoot: nil)
         config.strictResponseInput = configuration.strictResponseInput
         config.transformRequestBody = configuration.transformRequestBody
