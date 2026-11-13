@@ -9,8 +9,11 @@
         "packages/open-responses/src"
       ],
       "tests": [
+        "packages/open-responses/src/open-responses-extension.test-d.ts",
         "packages/open-responses/src/open-responses-extension.test.ts",
+        "packages/open-responses/src/open-responses-language-model-options.test-d.ts",
         "packages/open-responses/src/open-responses-provider.test.ts",
+        "packages/open-responses/src/open-responses-tools.test-d.ts",
         "packages/open-responses/src/responses/convert-to-open-responses-input.test.ts",
         "packages/open-responses/src/responses/map-open-responses-finish-reason.test.ts",
         "packages/open-responses/src/responses/open-responses-language-model.test.ts"
@@ -35,7 +38,11 @@
     {
       "kind": "native-adaptation",
       "reason": "Preserve Swift async/await, Sendable, Foundation transport and existing documented gaps; see Docs/CoreV6Parity.md and PortingStatus.md."
+    },
+    {
+      "kind": "native-adaptation",
+      "reason": "2026-11-14 @ai-sdk/open-responses 2.0.82 -> 2.0.87: integrity-verified published old/latest source/declarations and exact release-matched tests 0f3a85f92d1ce06ccde01d662407ef83e097a712 -> 8bc7652cdb13fc84722666eb93f45acd0d131eee reviewed separately. Published source/tests/declarations are unchanged; only bundled VERSION and dependency manifest/changelog update. Swift preserves its generic Responses request/response/stream contract and updates its actual owning user-agent to 2.0.87. Existing extension-codec/custom-event and framework/workflow gaps remain unchanged."
     }
   ],
-  "reviewNote": "M6: independent Open Responses factory, configuration and focused tests. The previously shared Responses engine remains in SwiftAIOpenAI and is consumed through its public hosting configuration, with openAIBackedProviderRoot nil and explicit Open Responses mode; no engine fork or upstream capability change. Shared mixed integration tests remain in the workspace. 2026-11-01 published package source/declarations and exact release-matched tests reviewed; native async credential suppliers preserve existing static keys, overrides and cancellation. See Docs/WeeklyUpstreamAudit20261101.json for archive identities and exact test provenance. 2026-11-08 published delta review and focused translations: Docs/WeeklyUpstreamAudit20261108.json; release-matched provenance and native adaptations retained separately from full-package parity."
+  "reviewNote": "M6: independent Open Responses factory, configuration and focused tests. The previously shared Responses engine remains in SwiftAIOpenAI and is consumed through its public hosting configuration, with openAIBackedProviderRoot nil and explicit Open Responses mode; no engine fork or upstream capability change. Shared mixed integration tests remain in the workspace. 2026-11-01 published package source/declarations and exact release-matched tests reviewed; native async credential suppliers preserve existing static keys, overrides and cancellation. See Docs/WeeklyUpstreamAudit20261101.json for archive identities and exact test provenance. 2026-11-08 published delta review and focused translations: Docs/WeeklyUpstreamAudit20261108.json; release-matched provenance and native adaptations retained separately from full-package parity. 2026-11-14 @ai-sdk/open-responses 2.0.82 -> 2.0.87: integrity-verified published old/latest source/declarations and exact release-matched tests 0f3a85f92d1ce06ccde01d662407ef83e097a712 -> 8bc7652cdb13fc84722666eb93f45acd0d131eee reviewed separately. Published source/tests/declarations are unchanged; only bundled VERSION and dependency manifest/changelog update. Swift preserves its generic Responses request/response/stream contract and updates its actual owning user-agent to 2.0.87. Existing extension-codec/custom-event and framework/workflow gaps remain unchanged."
 }
