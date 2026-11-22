@@ -26,6 +26,7 @@
     ],
     "tests": [
       "Tests/SwiftAIOpenResponsesTests/FixtureDownloadTransport.swift",
+      "Tests/SwiftAIOpenResponsesTests/OpenResponsesLanguageModelRequestUpstreamTests.swift",
       "Tests/SwiftAIOpenResponsesTests/OpenResponsesStrictInputTests.swift",
       "Tests/SwiftAIOpenResponsesTests/OpenResponsesUpstreamParity20260817Tests.swift",
       "Tests/SwiftAIOpenResponsesTests/TestSupport.swift",

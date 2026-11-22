@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "package": "swift-ai-open-responses",
-  "version": "1.1.2",
-  "releaseID": "weekly-upstream-20261114",
+  "version": "1.1.3",
+  "releaseID": "weekly-upstream-20261122",
   "source": {
-    "commit": "07fbf86b82d83d9724bd03622e9e87e74395286f",
-    "baseCommit": "07fbf86b82d83d9724bd03622e9e87e74395286f",
+    "commit": "73e28c7d4106338c3030bc36700c5922aeb2ebd9",
+    "baseCommit": "73e28c7d4106338c3030bc36700c5922aeb2ebd9",
     "workingTree": false,
-    "inputsSHA256": "63e472c0fe891cb7636d225e1c6467e4761dc3721be68081f2afa9f0b656bb29"
+    "inputsSHA256": "5b64cfae284ecf9a081f1c08d5b5dff83915b3c57b62669a3408e51a52961cb5"
   },
   "dependencies": [
     {
@@ -21,28 +21,28 @@
   ],
   "changes": [
     {
-      "id": "weekly-upstream-20261114",
-      "notes": "Refresh the versioned request identity while retaining the current native request, response and stream behavior. Internal upstream model-catalog reorganizations preserve the existing native policies. Reviewed npm delta: @ai-sdk/open-responses 2.0.82 to 2.0.87. Validation: `node Scripts/test-packages.mjs` passed all 52 owning suites and 1731 facade tests; tooling 27/27, generation/isolation checks, standalone exports and 106 minimum/latest consumers, documentation check and 101-page build passed. Publication requires green exact-source Swift 6.3.3 CI. Paid/live verification and full-package parity are not claimed.",
-      "compatibility": "Compatible behavior/header correction. Original public selectors are preserved. npm baselines and Swift SemVer are independent; this reviewed delta does not establish full-package or live-service parity."
+      "id": "weekly-upstream-20261122",
+      "notes": "Align the provider request identity with @ai-sdk/open-responses 2.0.89 after comparing source, declarations and matching-release tests against 2.0.87. Offline validation passed: node Scripts/test-packages.mjs (56 packages, 3672 owning tests and 1760 compatibility tests), generation, tooling, isolation, and version selection. See Docs/Archive/WeeklyUpstreamAudit20261122.md for retained gaps. Paid provider calls were skipped.",
+      "compatibility": "Source-compatible request-header update."
     }
   ],
   "canonicalDirectory": "Packages/swift-ai-open-responses",
   "upstream": [
     {
       "name": "@ai-sdk/open-responses",
-      "reviewedVersion": "2.0.87",
+      "reviewedVersion": "2.0.89",
       "ledgerKind": "provider",
-      "evidence": "`AIProviders.openResponses`, `ResponsesRequestMode.openResponses`, `OpenResponsesTools`, `ResponsesEndpointTests.swift`, `OpenAIResponsesMessageConversionTests.swift`; 2026-11-01 delta: Docs/WeeklyUpstreamAudit20261101.json; 2026-11-08 delta: Docs/WeeklyUpstreamAudit20261108.json; 2026-11-14 delta: Docs/WeeklyUpstreamAudit20261114.json",
+      "evidence": "`AIProviders.openResponses`, `ResponsesRequestMode.openResponses`, `OpenResponsesTools`, `ResponsesEndpointTests.swift`, `OpenAIResponsesMessageConversionTests.swift`; 2026-11-01 delta: Docs/Archive/WeeklyUpstreamAudit20261101.json; 2026-11-08 delta: Docs/Archive/WeeklyUpstreamAudit20261108.json; 2026-11-14 delta: Docs/Archive/WeeklyUpstreamAudit20261114.json; 2026-11-22 delta: Docs/Archive/WeeklyUpstreamAudit20261122.json",
       "reviewStatus": "imported-reviewed-with-gaps",
-      "archiveIntegrity": "sha512-mQrAeQ5qjvUcNVFI0fiOjzUDur2aciy8onbMpr2r99BbS1GmwyyHsb6Y3am/ItV5Gp84Ywq7nE4mV+bucatGFw==",
-      "sourceRef": "npm:@ai-sdk/open-responses@2.0.87",
-      "testRef": "8bc7652cdb13fc84722666eb93f45acd0d131eee",
+      "archiveIntegrity": "sha512-JZrRcaN0vjPn0DE/ud2nielvTVhBptqtp6fWqY+AUW34Fr3UdrDgUzRyx/rDCbGlejmpROxOmBuUGANv8HiIVA==",
+      "sourceRef": "npm:@ai-sdk/open-responses@2.0.89",
+      "testRef": "3dad57f204c7332178d28c3467c7311875b66a3e",
       "testRefRelationship": "matching-release",
       "contractFamilies": [
         "LanguageModelV4",
         "ProviderV4"
       ],
-      "contractReview": "2026-11-14: verified published source/declarations and exact matching-release changed tests reviewed separately; native ports, per-file dispositions and retained gaps are recorded in Docs/WeeklyUpstreamAudit20261114.json. Delta review is not full-package or live-service parity."
+      "contractReview": "2026-11-22: reviewed the published source and declarations and the matching-release test diffs. Native evidence and explicitly retained coverage gaps are in Docs/Archive/WeeklyUpstreamAudit20261122.json."
     }
   ],
   "note": "Independent port. Imported test refs and contract review gaps retain their original status; export is not new upstream parity proof.",
@@ -61,19 +61,23 @@
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Porting/map.json",
-      "sha256": "9224934fe7edd5c53d90e3011e7870aeefa011a8dba656f264b86ba439327130"
+      "sha256": "6948f1609252e31fbbd7a2d13cd318d410ee4dfe5162086da950db4bb8c6195e"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/README.md",
-      "sha256": "005ec96a25dbe387b79cad0b812b0bc17c3835be81797f4a1cc95b23b5829f9e"
+      "sha256": "e6ae59c28ad62fef44361731c62f25b323b225dbb834f7c6d7fe6f398de2ecde"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Sources/SwiftAIOpenResponses/OpenResponsesProvider.swift",
-      "sha256": "c85257de4d2dcaedcca3299f31a81ee16e8c7bc3c4a9680ac53b5621a07feb11"
+      "sha256": "ec21c18d786e699f1ef59a36aa5e188bc0ec17234964d5733717cdedbe24aae8"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/FixtureDownloadTransport.swift",
       "sha256": "bb357cdfe620ae132fd1ca730d5a5f65f8fb2877fc49580bb774186358bd71e3"
+    },
+    {
+      "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/OpenResponsesLanguageModelRequestUpstreamTests.swift",
+      "sha256": "9ee800ed4c12c444b4e664c95cbadde512c3a11865633731228a691e57c6aa89"
     },
     {
       "canonicalPath": "Packages/swift-ai-open-responses/Tests/SwiftAIOpenResponsesTests/OpenResponsesStrictInputTests.swift",

@@ -1,5 +1,5 @@
 <!-- Generated distribution; edit the canonical repository. -->
-# swift-ai-open-responses 1.1.2
+# swift-ai-open-responses 1.1.3
 
 Independent Swift-native port of Vercel AI SDK. Source and upstream dispositions are in PROVENANCE.json and Porting/.
 
@@ -8,7 +8,7 @@ Independent Swift-native port of Vercel AI SDK. Source and upstream dispositions
 Add this package to your SwiftPM dependencies:
 
 ```swift
-.package(url: "https://github.com/SwiftAISDK/swift-ai-open-responses.git", from: "1.1.2")
+.package(url: "https://github.com/SwiftAISDK/swift-ai-open-responses.git", from: "1.1.3")
 ```
 
 Products: `SwiftAIOpenResponses`.
@@ -16,24 +16,33 @@ Contribute and report issues in the canonical SwiftAISDK repository.
 
 ## Authored usage guide
 
-# SwiftAIOpenResponses
+# Open Responses for Swift
 
-Swift-native port of `@ai-sdk/open-responses`. Maintained in the canonical SwiftAISDK repository and exported as an independent Swift package.
+`SwiftAIOpenResponses` adds Open Responses to [SwiftAISDK](https://github.com/SwiftAISDK/SwiftAISDK), an independent Swift port of the Vercel AI SDK. It ports `@ai-sdk/open-responses` and supports text generation.
+
+Provider guide with models, options, streaming and errors:
+
+- [Open Responses](https://swiftaisdk.github.io/SwiftAISDK/providers/open-responses-responses/)
+
+## Usage
+
+Add the `SwiftAI` product from `swift-ai-core` and the `SwiftAIOpenResponses` product from this package to your target, then create the provider:
 
 ```swift
+import SwiftAI
 import SwiftAIOpenResponses
 
-let provider = try OpenResponsesProvider(name: "local", url: "https://example.com/responses",
-                                         configuration: .init(apiKey: "..."))
-let model = try provider.languageModel("local-model")
+let provider = try AIProviders.openResponses(
+    name: "my-server",
+    url: "https://example.com/v1/responses",
+    configuration: OpenResponsesProviderSettings()
+)
 ```
 
-This package owns endpoint configuration, generic Responses mode, custom tools and
-its ported tests. It reuses the existing shared Responses engine through
-`SwiftAIOpenAI`'s public hosting API. That dependency does not add OpenAI credentials,
-model routing or wire policy. It avoids a second engine to synchronize. A future
-engine move would require a separate compatibility migration.
+Pass credentials in the provider settings; the guide shows the supported options.
 
-The existing extension-codec gap remains documented in the canonical capability
-matrix. Run `swift test --package-path Packages/swift-ai-open-responses` in the
-canonical checkout. Distribution manifests are generated from the package catalog.
+To use every provider through one dependency, add the complete [SwiftAISDK](https://github.com/SwiftAISDK/SwiftAISDK) package instead; see [Install](https://swiftaisdk.github.io/SwiftAISDK/getting-started/install/).
+
+## Contributing
+
+This package is exported from `Packages/swift-ai-open-responses` in the canonical [SwiftAISDK](https://github.com/SwiftAISDK/SwiftAISDK) repository. Open issues and pull requests there.
